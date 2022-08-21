@@ -34,6 +34,22 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+
+  <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyDsHhs2gZegZrTpvABuOsxRaugYyDdqcNk",
+        authDomain: "dbms-project-68e7e.firebaseapp.com",
+        projectId: "dbms-project-68e7e",
+        storageBucket: "dbms-project-68e7e.appspot.com",
+        messagingSenderId: "245310645124",
+        appId: "1:245310645124:web:1035ea17c5182c3125f3d1"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('flutter-first-frame', function () {
@@ -41,6 +57,9 @@
       });
     }
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>

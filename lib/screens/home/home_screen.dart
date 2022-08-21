@@ -5,8 +5,6 @@ import 'package:news/responsive.dart';
 
 import 'components/blog_post.dart';
 import 'components/categories.dart';
-import 'components/recent_posts.dart';
-import 'components/search.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -25,19 +23,21 @@ class HomeScreen extends StatelessWidget {
               blogPosts.length,
               (index) => BlogPostCard(blog: blogPosts[index]),
             ),
+
           ),
+
         ),
+
         if (!Responsive.isMobile(context)) SizedBox(width: kDefaultPadding),
         // Sidebar
         if (!Responsive.isMobile(context))
           Expanded(
             child: Column(
               children: [
-                Search(),
+                //  Search(),
                 SizedBox(height: kDefaultPadding),
                 Categories(),
                 SizedBox(height: kDefaultPadding),
-                RecentPosts(),
               ],
             ),
           ),

@@ -19,8 +19,16 @@ class SideMenu extends StatelessWidget {
               DrawerHeader(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding * 3.5),
-                  child: SvgPicture.asset("assets/icons/logo.svg"),
+                      horizontal: kDefaultPadding * 3.5, vertical: 20),
+                  child: Text(
+                    'Crypto.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 27,
+                      fontFamily: "Raleway",
+                    ),
+                  ),
                 ),
               ),
               ...List.generate(
@@ -63,7 +71,11 @@ class DrawerItem extends StatelessWidget {
         onTap: press,
         title: Text(
           title,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontFamily: "Raleway",
+          ),
         ),
       ),
     );

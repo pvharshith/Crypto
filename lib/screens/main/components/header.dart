@@ -1,16 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:news/controllers/MenuController.dart';
-import 'package:news/responsive.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:news/models/user.dart';
+import 'package:news/screens/main/components/Contact%20us.dart';
+import 'package:news/screens/main/components/Login.dart';
+import 'package:news/screens/main/components/Signup.dart';
+import 'package:news/screens/main/main_screen.dart';
 
 import '../../../constants.dart';
-import 'socal.dart';
-import 'web_menu.dart';
 
-class Header extends StatelessWidget {
-  final MenuController _controller = Get.put(MenuController());
+class Header extends StatefulWidget {
+  @override
+  State<Header> createState() => _HeaderState();
+}
 
+class _HeaderState extends State<Header> {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  UserModel loggedInUser = UserModel();
+
+  @override
+  // void initState() {
+  //   super.initState();
+  //   FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(user!.uid)
+  //       .get()
+  //       .then((value) {
+  //     this.loggedInUser = UserModel.fromMap(value.data());
+  //     setState(() {});
+  //   });
+  // }
+
+  //final MenuController _controller = Get.put(MenuController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,77 +42,90 @@ class Header extends StatelessWidget {
       color: kDarkBlackColor,
       child: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              constraints: BoxConstraints(maxWidth: kMaxWidth),
-              padding: EdgeInsets.all(kDefaultPadding),
+              // constraints: BoxConstraints(maxWidth: kMaxWidth),
+              padding: EdgeInsets.all(20),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      if (!Responsive.isDesktop(context))
-                        IconButton(
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            _controller.openOrCloseDrawer();
-                          },
+                      Text(
+                        'Crypto.',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                          fontFamily: "Raleway",
                         ),
-                      SvgPicture.asset("assets/icons/logo.svg"),
-                      Spacer(),
-                      if (Responsive.isDesktop(context)) WebMenu(),
-                      Spacer(),
-                      // Socal
-                      Socal(),
-                    ],
-                  ),
-                  SizedBox(height: kDefaultPadding * 2),
-                  Text(
-                    "Welcome to Our Blog",
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: kDefaultPadding),
-                    child: Text(
-                      "Stay updated with the newest design and development stories, case studies, \nand insights shared by DesignDK Team.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Raleway',
-                        height: 1.5,
                       ),
-                    ),
-                  ),
-                  FittedBox(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Row(
+                      Spacer(),
+                      Column(
                         children: [
-                          Text(
-                            "Learn More",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(width: kDefaultPadding / 2),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginWidget()),
+                              );
+                            },
+                            child: Text("Login",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 18, color: Colors.white)),
+                          )
                         ],
                       ),
-                    ),
+                      Column(
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUp()));
+                              },
+                              child: Text(
+                                "Signup",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 18, color: Colors.white),
+                              )),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ContactPage()));
+                              },
+                              child: Text(
+                                "Contact us",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 18, color: Colors.white),
+                              )),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            ActionChip(
+                                label: Text(
+                                  "Logout",
+                                  style: GoogleFonts.poppins(fontSize: 18),
+                                ),
+                                onPressed: () {
+                                  logout(context);
+                                })
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  if (Responsive.isDesktop(context))
-                    SizedBox(height: kDefaultPadding),
                 ],
               ),
             )
@@ -96,5 +133,11 @@ class Header extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => MainScreen()));
   }
 }

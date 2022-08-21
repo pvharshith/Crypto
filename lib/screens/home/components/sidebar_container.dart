@@ -5,6 +5,7 @@ import '../../../constants.dart';
 class SidebarContainer extends StatelessWidget {
   final String title;
   final Widget child;
+
   const SidebarContainer({
     Key? key,
     required this.title,
@@ -28,6 +29,7 @@ class SidebarContainer extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
+              fontSize: 16,
               color: kDarkBlackColor,
               fontWeight: FontWeight.w600,
             ),
